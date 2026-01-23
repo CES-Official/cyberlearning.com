@@ -206,7 +206,7 @@ app.get("/api/certifications", async (req, res) => {
    🚀 START SERVER
    ========================================================= */
 
-const PORT = 3000;
+const PORT = 443;
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
