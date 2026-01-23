@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Pages</title>
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f5f7fa;
+      padding: 40px;
+    }
+
+    .list {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .row:last-child {
+      border-bottom: none;
+    }
+
+    .meta {
+      font-size: 14px;
+      color: #6b7280;
+    }
+/* From Uiverse.io by barisdogansutcu */ 
+button {
+  padding: 17px 40px;
+  border-radius: 50px;
+  cursor: pointer;
+  border: 0;
+  background-color: #F0FFDF;
+  border-color: red;
+  box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 15px;
+  transition: all 0.5s ease;
+}
+
+button:hover {
+  letter-spacing: 3px;
+  background-color: white;
+  color: black;
+  border-color: red;
+  /* box-shadow: rgb(93 24 220) 0px 7px 29px 0px; */
+}
+
+button:active {
+  letter-spacing: 3px;
+  background-color: hsl(261deg 80% 48%);
+  color: hsl(0, 0%, 100%);
+  /* box-shadow: rgb(93 24 220) 0px 0px 0px 0px; */
+  /* transform: translateY(10px); */
+  transition: 100ms;
+}
+
+</style>
+</head>
+
+<body>
+  <div class="list">
+    <h2>All Pages</h2>
+    <div id="pages"></div>
+  </div>
+
+<script>
+async function loadPages() {
+  const res = await fetch("/api/admin/pages");
+  const pages = await res.json();
+
+  const container = document.getElementById("pages");
+  container.innerHTML = "";
+
+  pages.forEach(p => {
+    const div = document.createElement("div");
+    div.className = "row";
+
+    div.innerHTML = `
+      <div>
+        <strong>${p.id}</strong>
+        <div class="meta">${p.type}</div>
+      </div>
+      <button onclick="deletePage('${p.type}', '${p.id}')">
+        Delete
+      </button>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+async function deletePage(type, id) {
+  const ok = confirm(`Are you sure you want to delete "${id}" from ${type}?`);
+  if (!ok) return;
+
+  const res = await fetch(`/api/admin/pages/${type}/${id}`, {
+    method: "DELETE"
+  });
+
+  if (!res.ok) {
+    alert("Delete failed");
+    return;
+  }
+
+  loadPages(); // refresh list
+}
+
+loadPages();
+</script>
+</body>
+</html>

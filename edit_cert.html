@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit Certification</title>
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    * { box-sizing: border-box; font-family: system-ui, sans-serif; }
+    body { background: #f5f7fa; padding: 40px; }
+    .cert-form {
+      max-width: 650px;
+      margin: auto;
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    label { display: block; margin-bottom: 14px; font-weight: 500; }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    textarea { min-height: 70px; resize: vertical; }
+    fieldset {
+      margin: 20px 0;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    legend { font-weight: 600; }
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background: #2563eb;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .add-btn { background: #10b981; margin-top: 10px; }
+    .item {
+      border: 1px solid #e5e7eb;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .remove-area {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      cursor: pointer;
+      color: #ef4444;
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+
+<form class="cert-form" id="certForm">
+  <h2>Edit Certification</h2>
+
+  <!-- ✅ CERTIFICATION SELECT -->
+  <label>
+    Select Certification
+    <select id="certSelect" required>
+      <option value="">— Select —</option>
+    </select>
+  </label>
+
+  <label>Title <input name="title" required /></label>
+  <label>Duration <input name="duration" /></label>
+  <label>Image URL <input name="imageUrl" /></label>
+  <label>Price <input name="price" /></label>
+  <fieldset>
+    <legend>Key Skills</legend>
+    <div id="keySkillsContainer"></div>
+    <button type="button" class="add-btn" onclick="addKeySkill()">+ Add Skill</button>
+</fieldset>
+
+
+  <!-- <fieldset>
+    <legend>Course Highlights</legend>
+    <div id="highlightsContainer"></div>
+    <button type="button" class="add-btn" onclick="addHighlight()">+ Add</button>
+  </fieldset> -->
+
+  <fieldset>
+    <legend>Prerequisites</legend>
+    <div id="prerequisitesContainer"></div>
+    <button type="button" class="add-btn" onclick="addPrerequisite()">+ Add</button>
+  </fieldset>
+
+  <button type="submit">Save Certification</button>
+</form>
+
+<script>
+const certForm = document.getElementById("certForm");
+// const highlightsContainer = document.getElementById("highlightsContainer");
+const prerequisitesContainer = document.getElementById("prerequisitesContainer");
+const keySkillsContainer = document.getElementById("keySkillsContainer");
+
+let currentCertId = null;
+
+/* ================== LOAD CERTIFICATIONS ================== */
+async function loadCertifications() {
+  const res = await fetch("/admin/api/certifications");
+  const data = await res.json();
+
+  const select = document.getElementById("certSelect");
+  data.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c.id;
+    opt.textContent = c.title || c.id;
+    select.appendChild(opt);
+  });
+}
+
+document.getElementById("certSelect").addEventListener("change", async e => {
+  currentCertId = e.target.value;
+  if (!currentCertId) return;
+
+  const res = await fetch(`/admin/api/certifications/${currentCertId}`);
+  const d = await res.json();
+
+  certForm.title.value = d.title || "";
+  certForm.price.value = d.price ?? d.Price ?? "";
+  certForm.duration.value = d.duration || "";
+  certForm.imageUrl.value = d.imageUrl || "";
+
+//   highlightsContainer.innerHTML = "";
+  prerequisitesContainer.innerHTML = "";
+  keySkillsContainer.innerHTML = "";
+
+// (d.courseHighlights || []).forEach(h => {
+//   addItem(
+//     "highlightsContainer",
+//     true,                 // textarea mode
+//     h.title || "",
+//     h.description || ""
+//   );
+// });
+
+(d.KeySkills || d.keySkills || []).forEach(skill => {
+  addItem("keySkillsContainer", false, skill);
+});
+
+
+  (d.prerequisites || []).forEach(p => {
+    addItem("prerequisitesContainer", false, p);
+  });
+});
+
+/* ================== ITEM HELPERS ================== */
+function addItem(containerId, isTextarea, val1="", val2="") {
+  const div = document.createElement("div");
+  div.className = "item";
+
+  div.innerHTML = isTextarea
+    ? `<div class="remove-area" onclick="this.parentElement.remove()">✖</div>
+       <input value="${val1}" />
+       <textarea>${val2}</textarea>`
+    : `<div class="remove-area" onclick="this.parentElement.remove()">✖</div>
+       <input value="${val1}" />`;
+
+  document.getElementById(containerId).appendChild(div);
+}
+
+// function addHighlight() {
+//   addItem("highlightsContainer", true);
+// }
+
+function addKeySkill() {
+  addItem("keySkillsContainer");
+}
+
+
+function addPrerequisite() { addItem("prerequisitesContainer"); }
+
+// function readHighlights() {
+//   return [...highlightsContainer.children]
+//     .map(item => {
+//       const [title, desc] = item.querySelectorAll("input, textarea");
+//       if (!title.value.trim()) return null;
+//       return {
+//         title: title.value.trim(),
+//         description: desc.value.trim()
+//       };
+//     })
+//     .filter(Boolean);
+// }
+
+function readKeySkills() {
+  return [...keySkillsContainer.querySelectorAll("input")]
+    .map(i => i.value.trim())
+    .filter(Boolean);
+}
+
+
+function readPrerequisites() {
+  return [...prerequisitesContainer.querySelectorAll("input")]
+    .map(i => i.value.trim())
+    .filter(Boolean);
+}
+
+/* ================== UPDATE SUBMIT ================== */
+certForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!currentCertId) return alert("Select a certification");
+
+  const payload = {
+    title: certForm.title.value.trim(),
+    price: certForm.price.value.trim(),
+    duration: certForm.duration.value.trim(),
+    imageUrl: certForm.imageUrl.value.trim(),
+    KeySkills: readKeySkills(),
+    prerequisites: readPrerequisites()
+  };
+
+  const res = await fetch(`/admin/api/certifications/${currentCertId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  const data = await res.json();
+  if (!res.ok) return alert(`❌ Update failed: ${data.error}`);
+
+  alert("✅ Certification updated");
+});
+
+loadCertifications();
+</script>
+
+</body>
+</html>

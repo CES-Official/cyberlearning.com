@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit Bootcamp</title>
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* your existing styles unchanged */
+    * { box-sizing: border-box; font-family: system-ui, sans-serif; }
+    body { background: #f5f7fa; padding: 40px; }
+    .cert-form {
+      max-width: 650px;
+      margin: auto;
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    label { display: block; margin-bottom: 14px; font-weight: 500; }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    textarea { min-height: 70px; resize: vertical; }
+    fieldset {
+      margin: 20px 0;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    legend { font-weight: 600; }
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background: #2563eb;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .add-btn { background: #10b981; margin-top: 10px; }
+    .item {
+      border: 1px solid #e5e7eb;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .remove-area {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      cursor: pointer;
+      color: #ef4444;
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+
+<form class="cert-form" id="certForm">
+  <h2>Edit Bootcamp</h2>
+
+  <!-- ✅ BOOTCAMP SELECT -->
+  <label>
+    Select Bootcamp
+    <select id="bootcampSelect" required>
+      <option value="">— Select —</option>
+    </select>
+  </label>
+
+  <label>Title <input name="title" required /></label>
+  <label>Duration <input name="duration" /></label>
+  <label>Image URL <input name="imageUrl" /></label>
+  <label>Price <input name="price" /></label>
+
+  <fieldset>
+    <legend>Syllabus Covered</legend>
+    <div id="syllabusContainer"></div>
+    <button type="button" class="add-btn" onclick="addHighlight()">+ Add</button>
+  </fieldset>
+
+  <fieldset>
+    <legend>Prerequisites</legend>
+    <div id="prerequisitesContainer"></div>
+    <button type="button" class="add-btn" onclick="addPrerequisite()">+ Add</button>
+  </fieldset>
+
+  <button type="submit">Save Bootcamp</button>
+</form>
+
+<script>
+const certForm = document.getElementById("certForm");
+const syllabusContainer = document.getElementById("syllabusContainer");
+const prerequisitesContainer = document.getElementById("prerequisitesContainer");
+let currentBootcampId = null;
+
+/* ================== LOAD BOOTCAMPS ================== */
+async function loadBootcamps() {
+  const res = await fetch("/api/bootcamps");
+  const data = await res.json();
+
+  const select = document.getElementById("bootcampSelect");
+  data.forEach(b => {
+    const opt = document.createElement("option");
+    opt.value = b.id;
+    opt.textContent = b.title || b.id;
+    select.appendChild(opt);
+  });
+}
+
+document.getElementById("bootcampSelect").addEventListener("change", async e => {
+  currentBootcampId = e.target.value;
+  if (!currentBootcampId) return;
+
+  const res = await fetch(`/admin/api/bootcamps/${currentBootcampId}`);
+  const d = await res.json();
+
+  // populate fields
+  certForm.title.value = d.title || "";
+  certForm.price.value = d.price || "";
+  certForm.duration.value = d.duration || "";
+  certForm.imageUrl.value = d.ImgLink || "";
+
+  syllabusContainer.innerHTML = "";
+  prerequisitesContainer.innerHTML = "";
+
+  (d.Syllabus || []).forEach(s => {
+    addItem("syllabusContainer", true, s.title, s.description);
+  });
+
+  (d.Prerequisites || []).forEach(p => {
+    addItem("prerequisitesContainer", false, p);
+  });
+});
+
+/* ================== ITEM HELPERS ================== */
+function addItem(containerId, isTextarea, val1="", val2="") {
+  const div = document.createElement("div");
+  div.className = "item";
+
+  div.innerHTML = isTextarea
+    ? `<div class="remove-area" onclick="this.parentElement.remove()">✖</div>
+       <input value="${val1}" placeholder="Title" />
+       <textarea placeholder="Description">${val2}</textarea>`
+    : `<div class="remove-area" onclick="this.parentElement.remove()">✖</div>
+       <input value="${val1}" placeholder="Value" />`;
+
+  document.getElementById(containerId).appendChild(div);
+}
+
+function addHighlight() { addItem("syllabusContainer", true); }
+function addPrerequisite() { addItem("prerequisitesContainer"); }
+
+function readSyllabus() {
+  return [...syllabusContainer.children].map(i => {
+    const [t,d] = i.querySelectorAll("input,textarea");
+    return t.value ? { title: t.value, description: d.value } : null;
+  }).filter(Boolean);
+}
+
+function readPrerequisites() {
+  return [...prerequisitesContainer.querySelectorAll("input")]
+    .map(i => i.value).filter(Boolean);
+}
+
+/* ================== UPDATE SUBMIT ================== */
+certForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!currentBootcampId) return alert("Select a bootcamp");
+
+  const payload = {
+    title: certForm.title.value,
+    price: certForm.price.value,
+    duration: certForm.duration.value,
+    ImgLink: certForm.imageUrl.value,
+    Syllabus: readSyllabus(),
+    Prerequisites: readPrerequisites()
+  };
+
+  const res = await fetch(`/admin/api/bootcamps/${currentBootcampId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  if (!res.ok) return alert(`❌ Update failed: ${data.error || data.message || "Unknown error"}`);
+  alert("✅ Bootcamp updated");
+});
+
+loadBootcamps();
+</script>
+
+</body>
+</html>

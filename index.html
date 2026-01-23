@@ -1,0 +1,832 @@
+<!DOCTYPE html><html
+	class=" is-full  has-default-focus theme-light"
+	lang="en-us"
+	dir="ltr"
+	data-authenticated="false"
+	data-auth-status-determined="false"
+	data-target="docs"
+	x-ms-format-detection="none">
+
+
+<!-- Mirrored from learn.microsoft.com/en-us/training/educator-center/programs/msle/?wt.mc_id=fsi_msle_webpage_wwl_aiinedu by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 08 Nov 2024 05:18:20 GMT -->
+			   <head>
+				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+				   <meta charset="utf-8" />
+				   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+				 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Quicksand&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+
+
+
+<style>
+</style>
+				    <style>
+					   /* Slider container */
+
+
+.slider {
+    position: relative;
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    height: 40vh; /* Default: 40% of the viewport height */
+    max-height: 500px; /* Upper limit for larger screens */
+}
+
+/* Slides wrapper */
+.slides {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: 100%;
+}
+
+/* Each slide */
+.slide {
+    flex: 0 0 100%; /* Each slide takes up 100% of the slider width */
+    box-sizing: border-box;
+}
+
+/* Images inside slides */
+.slide img {
+    width: 100%; /* Image adjusts to the full width of the container */
+    height: 100%; /* Image scales to the height of the slider */
+    object-fit: cover; /* Ensures no distortion but crops excess if necessary */
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 1024px) {
+    .slider {
+        height: 35vh; /* Slightly reduce height for laptops */
+        max-height: 400px; /* Upper limit for laptops */
+    }
+}
+
+@media (max-width: 768px) {
+    .slider {
+        height: 30vh; /* Further reduce height for tablets */
+        max-height: 350px; /* Upper limit for tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    .slider {
+        height: 25vh; /* Smallest height for mobile phones */
+        max-height: 300px; /* Upper limit for mobile devices */
+    }
+}
+
+
+/* Logo slider wrapper */
+.logo-slider {
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  padding: 3vh 0;
+}
+
+/* Moving track */
+.logo-track {
+  display: flex;
+  width: max-content;
+  animation: logo-scroll 20s linear infinite;
+}
+
+/* Individual logo */
+.logo {
+  flex: 0 0 auto;
+  width: 12vw;
+  max-width: 160px;
+  min-width: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 2vw;
+}
+
+/* Image safety */
+.logo img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.8;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+/* Animation */
+@keyframes logo-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+
+
+					 
+					   /* Navigation buttons */
+					   .prev, .next {
+						   position: absolute;
+						   top: 50%;
+						   transform: translateY(-50%);
+						   background-color: rgba(0, 0, 0, 0.5);
+						   color: white;
+						   border: none;
+						   padding: 10px;
+						   cursor: pointer;
+						   font-size: 18px;
+						   z-index: 10;
+					   }
+			   
+					   .prev {
+						   left: 10px;
+					   }
+			   
+					   .next {
+						   right: 10px;
+					   }
+			   
+					   /* Dots for manual navigation */
+					   .dots {
+						   text-align: center;
+						   position: absolute;
+						   bottom: 10px;
+						   width: 100%;
+						   z-index: 10;
+					   }
+			   
+					   .dots button {
+						   background-color: #bbb;
+						   border: none;
+						   border-radius: 50%;
+						   cursor: pointer;
+						   display: inline-block;
+						   height: 10px;
+						   margin: 5px;
+						   width: 10px;
+					   }
+			   
+					   .dots .active {
+						   background-color: #717171;
+					   }
+			   
+					   /* Media Queries for Smaller Screens */
+					   @media (max-width: 768px) {
+						   .slider {
+							   height: 40vh; /* Reduce slider height for smaller screens */
+						   }
+			   
+						   .prev, .next {
+							   font-size: 14px; /* Adjust button size */
+							   padding: 5px;
+						   }
+					   }
+			   
+					   @media (max-width: 480px) {
+						   .slider {
+							   height: 30vh; /* Further reduce slider height for mobile phones */
+						   }
+			   
+						   .prev, .next {
+							   font-size: 12px;
+							   padding: 3px;
+						   }
+					   }
+				   </style> 
+
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>India CyberLearning</title>
+<style>
+/* Styling specifically for the page title section */
+</style>
+
+<style>
+ body {
+  font-family: "Quicksand", sans-serif;
+	 margin: 0;
+	 padding: 0;
+ }
+
+ nav {
+	 background-color: navy;
+	 color: white;
+	 padding: 0;
+ }
+
+ .menu {
+	 list-style: none;
+	 padding: 15px 20px;
+	 margin: 0;
+	 display: flex;
+ }
+
+ .menu > li {
+	 position: relative; /* Needed for dropdown positioning */
+	 padding: 15px 20px;
+	 cursor: pointer;
+ }
+
+ .menu a {
+	 text-decoration: none;
+	 color: white !important; /* Force white text in all cases */
+ }
+
+ /* Override all link states with high specificity */
+ .menu a:link,
+ .menu a:visited,
+ .menu a:hover,
+ .menu a:active {
+	 color: white !important; /* Ensure white text remains consistent */
+	 text-decoration: none !important; /* Prevent underlines or other hover effects */
+ }
+
+ /* Dropdown styles */
+ .ndropdown, .dropdown-sub {
+	 display: none; /* Hidden by default */
+	 position: absolute;
+	 background-color: navy;
+	 padding: 0;
+	 list-style: none;
+	 margin: 0;
+	 top: 100%;
+	 left: 0;
+	 min-width: 150px;
+	 z-index: 10;
+	 border: 1px solid #555;
+ }
+
+ .ndropdown li {
+	 position: relative; /* Needed for sub-dropdown positioning */
+	 padding: 10px 15px;
+ }
+
+ /* Sub-dropdown styles */
+ .dropdown-sub {
+	 top: 0;
+	 left: 100%; /* Sub-menu appears to the right of the parent */
+ }
+
+ /* Show dropdowns on hover */
+ .menu > li:hover > .ndropdown,
+ .ndropdown li:hover > .dropdown-sub {
+	 display: block; /* Ensure dropdown is visible */
+ }
+
+ /* Add spacing for smooth transitions to sub-menus */
+ .ndropdown li {
+	 padding-right: 20px; /* Adds space between text and sub-dropdown */
+ }
+</style>
+
+    <script>
+        async function loadHtmlPartial(url, targetElementId) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const html = await response.text();
+                document.getElementById(targetElementId).innerHTML = html;
+            } catch (error) {
+                console.error('Error fetching HTML partial:', error);
+                document.getElementById(targetElementId).innerHTML =
+                    '<p>Error loading content.</p>';
+            }
+        }
+
+        // Safer than body onload
+        document.addEventListener("DOMContentLoaded", () => {
+            loadHtmlPartial("./icpl_header.html", "header-div");
+        });
+
+		document.addEventListener("DOMContentLoaded", () => {
+			loadHtmlPartial("./footer.html", "footer-div")
+		})
+    </script>
+
+</head>
+
+<body lang="en-us" dir="ltr">
+	<div id="header-div"> </div>
+
+				   <div class="mainContainer  uhf-container is-full  has-default-focus" data-bi-name="body">
+
+					   <div class="columns has-large-gaps is-gapless-mobile  is-gapless">
+						   <!-- .primary-holder -->
+						   <section class="primary-holder column ">
+							   <!--div.columns -->
+							   <div class="columns is-gapless-mobile has-large-gaps  is-gapless">
+								   <div id="main-column" class="column ">
+
+									   <main id="main" class="" role="main" data-bi-name="content" lang="en-us" dir="ltr">
+										   <div>
+											   <button type="button" class="border contents-button button button-clear button-sm is-hidden-tablet has-inner-focus" data-bi-name="contents-expand" data-contents-button hidden>
+												   <span class="icon">
+													   <span class="docon docon-editor-list-bullet" aria-hidden="true"></span>
+												   </span><span class="contents-expand-title">Table of contents</span>
+											   </button>
+										   </div><!-- end mobile-contents button  -->
+
+										 <!-- Slider Container -->
+									<!--	 <div class="slider">
+											<div class="slides">
+												<div class="slide"><img src="./MOS_Sample_Cert.jpg" alt="Image 1"></div>
+												<div class="slide"><img src="./IT Specialist.jpg" alt="Image 2"></div>
+												<div class="slide"><img src="./Lady_Trainer.jpg" alt="Image 3"></div>
+												<div class="slide"><img src="./MCF- Sample.jpeg" alt="Image 4"></div>
+											</div>
+											
+										*cmnt hrer* Navigation buttons 
+											<button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+											<button class="next" onclick="moveSlide(1)">&#10095;</button>
+									
+											*cmnt hrer*  Dots for slide indication -
+											<div class="dots">
+												<button onclick="setCurrentSlide(0)" class="dot active"></button>
+												<button onclick="setCurrentSlide(1)" class="dot"></button>
+												<button onclick="setCurrentSlide(2)" class="dot"></button>
+												<button onclick="setCurrentSlide(3)" class="dot"></button>
+											</div>
+										</div>
+									
+										<script>
+											let currentSlide = 0;
+											const slides = document.querySelector('.slides');
+											const totalSlides = document.querySelectorAll('.slide').length;
+											const dots = document.querySelectorAll('.dot');
+									
+											// Function to move slides
+											function moveSlide(step) {
+												currentSlide = (currentSlide + step + totalSlides) % totalSlides;
+												updateSlider();
+											}
+									
+											// Set slide based on dot click
+											function setCurrentSlide(index) {
+												currentSlide = index;
+												updateSlider();
+											}
+									
+											// Update slider position and active dot
+											function updateSlider() {
+												slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+												dots.forEach(dot => dot.classList.remove('active'));
+												dots[currentSlide].classList.add('active');
+											}
+									
+											// Automatic slide transition every 3 seconds
+											setInterval(() => moveSlide(1), 3000);
+										</script>
+									-->
+										 <!-- Slider Container Ends-->
+										   <div class="">
+											   <!-- <content> --><div id="Marketing" class="has-overflow-hidden">
+
+<!-- enter leader here-->
+  <div id="hero-section-4" class="hero is-small uhf-container padding-inline-none margin-block-md border-radius-lg" style="background-color: #EBEBEB; ">
+												   <div class="hero-background">
+												   </div>
+												   <!--  <div class="hero-body padding-inline-md padding-inline-lg-tablet">
+
+			<div class="is-reading-width has-backdrop-filter-blur"> -->
+
+												   <h2 class="title" style=" text-align: center; background-color: #EBEBEB; color:navy; font-size: xx-large">A Trusted Microsoft Global Training Partner</h2>
+												   <div class="content has-padding " style="background-color: #EBEBEB; ">
+
+													   <div class="row" style="margin-top: 0; padding-top: 0;">
+														   <!--  <div class="column" style="flex:10%"></div> -->
+
+														   <div class="column">
+															   <p><img src="./images/mainpic.jpg" style="margin-left: 5%" height="40%" alt="Expert Level Trainings" data-linktype="absolute-path" align="right"></p>
+														   </div>
+														   <div class="column" style="flex:1%">
+															   <p><img src="./images/stats.png" alt="" data-linktype="absolute-path" align="right"></p>
+														   </div>
+
+														   <div class="column">
+															   <p></p>
+															   <p></p>
+															   <p style="font-size:x-large;  color:navy; padding-top:30px;"><strong> 250+ Schools and Universities</strong></p>
+															   <p class="font-size-lg"> Rely on us. We successfully understand, analyze and customize trainings as per specific needs of clients </p>
+															   <p></p>
+															   <p></p>
+															   <p style="font-size: x-large; color: navy; padding-top: 1%; margin-top: 0%"><strong>91% Pass Rate</strong></p>
+															   <p class="font-size-lg">for CyberLearning students in Microsoft and other Coveted Certification Exams</p>
+															   <p></p>
+															   <p></p>
+															   <p style="font-size: x-large; color: navy; padding-top: 2.5%; margin-top: 0%;"><strong>99% Satisfaction Rate</strong></p>
+															   <p class="font-size-lg"> after CyberLearning trainings. Based on Post-training feedbacks.</p>
+														   </div>
+														   <!--  <div class="column" style="flex:10%"></div> -->
+														   <!--	<div class="column"></div> -->
+
+													   </div>
+												   </div>
+											   </div>
+
+										   </div>
+															   </div>
+														   </div>
+													   </div>
+												   </div>
+												   <div>
+													<h3 style="font-size: larger;">A partial list of past and current Customers</h4>
+												   </div>
+												   <section class="logo-slider">
+  <div class="logo-track">
+    <!-- Repeat logos TWICE for seamless loop -->
+    <div class="logo"><img src="images/logos/ms.png" alt="Microsoft"></div>
+    <div class="logo"><img src="images/logos/intel.png" alt="Intel"></div>
+    <div class="logo"><img src="images/logos/ugc.png" alt="University Grants Controller of India"></div>
+    <div class="logo"><img src="images/logos/ncb.jpeg" alt="National Computer Board of Mauritius"></div>
+    <div class="logo"><img src="images/logos/wipro.png" alt="Wipro"></div>
+	<!-- <div class="logo"><img src="logos/du.jpeg.jpg" alt="Delhi University"></div>
+    <div class="logo"><img src="logos/asap.png" alt="ASAP Kerala"></div> -->
+	
+
+    <!-- duplicate -->
+    <div class="logo"><img src="images/logos/ms.png" alt="Microsoft"></div>
+    <div class="logo"><img src="images/logos/intel.png" alt="Intel"></div>
+    <div class="logo"><img src="images/logos/ugc.png" alt="University Grants Controller of India"></div>
+    <div class="logo"><img src="images/logos/ncb.jpeg" alt="National Computer Board of Mauritius"></div>
+    <div class="logo"><img src="images/logos/wipro.png" alt="Wipro"></div>
+	<!-- <div class="logo"><img src="logos/du.jpeg.jpg" alt="Delhi University"></div>
+    <div class="logo"><img src="logos/asap.png" alt="ASAP Kerala"></div> -->
+  </div>
+</section>
+<button type="button" style="background-color: navy;" class="btn btn-primary btn-lg btn-block">Learn More about Our Courses</button>
+<br><br>
+<div id="hero-section-3" class="hero is-small uhf-container padding-inline-none" style="background-color: lightblue;">
+													   <div class="hero-background ">
+													   </div>
+													   <!--  <div class="hero-body padding-inline-md padding-inline-lg-tablet">
+
+				<div class="is-reading-width has-backdrop-filter-blur"> -->
+
+													   <h2 class="title is-5" style="text-align: center;  font-size: xx-large; color:navy;padding-top: 30px;">Modes of Training Offered </h2>
+													   <div class="content has-padding ">
+														   <div class="row">
+															   <div class="column">
+																   <p><img src="images/classroom.png" width="60" height="60" alt="Live Training" data-linktype="absolute-path" align="right"></p>
+															   </div>
+															   <div class="column" >
+																   <p class="font-size-lg" style="color:navy;"><strong>Classroom Live</strong></p>
+																   <p class="font-size-lg">Interact face-to-face with vendor certified trainers in campus.</p>
+															   </div>
+															   <!--	<div class="column"></div> -->
+															   <div class="column">
+																   <p><img src="images/virtual.png" width="60" height="60" alt="Remote Training " data-linktype="absolute-path" align="right"></p>
+															   </div>
+															   <div class="column">
+																   <p class="font-size-lg" style="color:navy;"><strong>Remote Classroom Live</strong></p>
+																   <p class="font-size-lg">Remotely attend and interact with instructor led-live class</p>
+																   <br>
+															   </div>
+															   <!-- <div class="column"></div> -->
+															   <div class="column">
+																   <p><img src="./images/certificate.png" width="60" height="60" alt="Group Training " data-linktype="absolute-path" align="right"></p>
+															   </div>
+															   <div class="column">
+																   <p class="font-size-lg" style="color:navy;"><strong>Exam Vouchers</strong></p>
+																   <p class="font-size-lg">We provide practice and exam vouchers at all scales of quantity.</p>
+															   </div>
+															   <br>
+														   </div>
+													   </div>
+												   </div>
+<button type="button" style="background-color: navy; color: white" class="btn btn-primary btn-lg btn-block">Look at our offerings</button>
+
+
+												   <div id="cards-section-2" class="padding-block-lg">
+													   <div class="uhf-container">
+														   <h2 id="three-flexible-ways-to-bring-microsoft-ai-and-tech-skills-into-your-classroom" class="title is-2 is-responsive">Microsoft Certifications and On-Demand Options</h2>
+														   <ul class="grid ">
+															   <li class="grid-item">
+																   <article class="media-card border-radius-lg  " data-bi-name="card">
+																	   <figure class="media-card-image">
+																		   <img src="/images/certificate.jpg" alt="" max-width="75%" data-linktype="absolute-path">
+																	   </figure>
+																	   <div class="media-card-content">
+																		   <a href="./promptathon.html" class="title is-5 margin-block-none ">Microsoft Certifications</a>
+																		   <div class="display-flex flex-direction-column justify-content-space-between flex-grow-1">
+																			   <p class="margin-bottom-xs">
+																				   <!-- Introduced Microsoft Certifications (Office and MTA) into India in 2006, and have lead the market ever since. -->
+																			   <p style="padding-top:10px;"><strong>Our history of success:</strong></p>
+																			   <div class="content">
+																				   <ul>
+																					   <li>91%   Microsoft Certification pass rate from beginners to experienced IT professionals</li>
+																					   <li> 300,000+ Microsoft Certifications completed.</li>
+																					   <!-- <li>Teaching AI-900 mapped univeristy curriculae <strong>  across India </strong> </li> -->
+																				   </ul>
+																			   </div>
+																			   </p>
+																			   <a href="./aibootcamp.html" >
+																					<button type="button" style="background-color: navy;" class="btn btn-primary btn-lg">Learn More</button></a>
+																			   
+																		   </div>
+																	   </div>
+																   </article>
+															   </li>
+															   <li class="grid-item">
+																   <article class="media-card border-radius-lg  " data-bi-name="card">
+																	   <figure class="media-card-image">
+																		   <img src="/images/heropic.jpg" alt="" data-linktype="absolute-path">
+																	   </figure>
+																	   <div class="media-card-content">
+																		   <a href="./copilot.html" class="title is-5 margin-block-none ">AI/ML (Customized Training)</a>
+																		   <div class="display-flex flex-direction-column justify-content-space-between">
+																			   <p class="margin-bottom-xs ">
+																				    <!-- Trained students from zero level (what is AI) to advanced AI topics (Algorithmic understanding, designing ML models). -->
+																			   <p style="padding-top:10px;"><strong>Our history of success:</strong></p>
+																			   <div class="content">
+																				   <ul>
+																					   <li>AI-upskilled 2,000+ professionals across governments & universities</li>
+																					   <li>Trained 10,000+ KG to 6th standard students in AI fundamentals.</li>
+																					   <li>Conduct Zero to Hero Chatbot Developer courses <strong> across India </strong>, 2nd batch ongoing.</li>
+																				   </ul>
+																			   </div>
+																			   </p>
+																				<a href="./aibootcamp.html" >
+																					<button type="button" style="background-color: navy;" class="btn btn-primary btn-lg">Learn More</button></a>
+																			   
+																		   </div>
+																	   </div>
+																   </article>
+															   </li>
+															   <li class="grid-item">
+																   <article class="media-card border-radius-lg  " data-bi-name="card">
+																	   <figure class="media-card-image">
+																		   <img src="/images/training.jpg" alt="" data-linktype="absolute-path">
+																	   </figure>
+																	   <div class="media-card-content">
+																		   <a href="./aibootcamp.html" class="title is-5 margin-block-none ">Cybersecurity (Customized Training)</a>
+																		   <div class="display-flex flex-direction-column justify-content-space-between flex-grow-1">
+																			   <p class="margin-bottom-xs flex-grow-1">
+																				   <!-- Security training covered by our Harvard-certified experts ranged from fundamentals to advanced defense strategies. -->
+																			   </p>
+																			   																			   <p style="padding-top:10px;"><strong>Our history of success:</strong></p>
+																			   <div class="content">
+																				   <ul>
+																					   <li>Conducted customized security training based on latest threat-report research across 5 governments. </li>
+																					   <li>Trained Cyber-Hygiene and Safe Internet Practices in 100+ schools. </li>
+																					   <!-- <li>Train cybersecurity certifications from SOC L1 to <strong> Azure Security Architect </strong>.</li> -->
+																				   </ul>
+																			   </div>
+																			   </p>
+																			    <a href="./aibootcamp.html" >
+																					<button type="button" style="background-color: navy;" class="btn btn-primary btn-lg">Learn More</button></a>
+																			   </div>
+																	   </div>
+																   </article>
+															   </li>
+														   </ul>
+													   </div>
+												   </div>
+												   
+										
+										   <!--	   <div id="navigation-section-4" class="padding-block-md">
+				<div class="uhf-container">
+					<nav id="navigation-section-4-nav" class="buttons buttons-centered">
+						<a href="#where-do-you-want-to-start" class="button button-clear button-lg" data-linktype="self-bookmark">
+							<span class="icon" aria-hidden="true">
+								<span class="docon docon-web-components"></span>
+							</span>
+							<span>
+								Microsoft Applied Skills
+							</span>
+						</a><a href="index-tab2.html#where-do-you-want-to-start" class="button button-clear button-lg" data-linktype="relative-path">
+							<span class="icon" aria-hidden="true">
+								<span class="docon docon-book-solid"></span>
+							</span>
+							<span>
+								Microsoft Curriculum and Certifications
+							</span>
+						</a><a href="index-tab3.html#where-do-you-want-to-start" class="button button-clear button-lg" data-linktype="relative-path">
+							<span class="icon" aria-hidden="true">
+								<span class="docon docon-developer-tools"></span>
+							</span>
+							<span>
+								AI Bootcamps for Educators
+							</span>
+						</a>
+					</nav>
+				</div>
+			</div>
+			<div id="bifold-section-5">
+				<div class="uhf-container padding-block-lg">
+					<div class="columns is-gapless-mobile has-large-gaps">
+						<div class="column is-half display-flex">
+							<div class="is-full-width display-flex flex-direction-column flex-grow-1   padding-block-xs">
+								<h2 id="teach-ai-with-microsoft-applied-skills" class="title is-2 is-responsive">Teach AI with Microsoft Applied Skills</h2>
+
+								<p class="font-size-lg">Microsoft Applied Skills is the easiest way to bring technical skilling into your classroom while allowing your students to work on real-world tech skills. Getting started is as easy as:</p>
+
+								<div class="content">
+									<ul>
+										<li class="margin-bottom-xxs">Select the Microsoft Applied Skills you want to use in your course and assign the Applied Skill to your students.</li>
+										<li class="margin-bottom-xxs">Your students can work through the learning path and confirm their understanding by passing the assessment.</li>
+										<li class="margin-bottom-xxs">By passing the online assessment students will receive a Microsoft verified credential that will help them stand out as they prepare for their career.</li>
+									</ul>
+								</div>
+
+								<div class="margin-top-xs">
+									<div class="buttons margin-top-xxs">
+										<a href="appliedskills.html" class="button" data-linktype="absolute-path">MSLE Applied Skills</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="column is-half display-flex">
+							<div class="is-full-width display-flex flex-direction-column flex-grow-1   padding-block-xs">
+								<figure class="image  ">
+									<img src="../../../media/msle/modern-credentials-light.png" alt="A close up of a keyboard with two keys, one with a shield depicting a certification log, another with a blue star inside a white and blue circle" data-linktype="absolute-path">
+								</figure>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="markdown-section-6" class="padding-block-sm">
+				<div class="uhf-container padding-top-sm">
+					<div class="content">
+						<h2 id="why-use-microsoft-applied-skills-in-your-course">Why use Microsoft Applied Skills in your Course?</h2>
+						<section class="row">
+							<div class="column">
+								<p><img src="../../../media/msle/applied-skill-value1.png" alt="A graph of different colored bars" data-linktype="absolute-path"></p>
+							</div>
+							<div class="column span3">
+								<h5 id="online-free-and-easy-to-integrate">Online, Free, and Easy to Integrate</h5>
+								<p>You have the freedom to choose which Microsoft Applied Skills compliment or expand your in-class teaching and easily assign them to your students.</p>
+							</div>
+							<div class="column">
+								<p><img src="../../../media/msle/applied-skill-value2.png" alt="A blue paper with a white pencil on it" data-linktype="absolute-path"></p>
+							</div>
+							<div class="column span3">
+								<h5 id="project-based-real-world-scenarios">Project based, real-world scenarios</h5>
+								<p>Enable students to efficiently demonstrate learned skills using practical scenarios and interactive lab-based assessments.</p>
+							</div>
+							<div class="column">
+								<p><img src="../../../media/msle/applied-skill-value3.png" alt="A blue and white check mark on a blue background" data-linktype="absolute-path"></p>
+							</div>
+							<div class="column span3">
+								<h5 id="a-path-to-microsoft-credentials">A path to Microsoft Credentials</h5>
+								<p>Ensure your students stand out in their professional journey by helping them earn a credential validating their skills which is verified by Microsoft.</p>
+							</div>
+						</section>
+
+					</div>
+				</div>
+			</div>
+			<div id="grid-section-7" class="padding-block-md">
+				<div class="uhf-container">
+					<h2 id="featured-applied-skills" class="title is-2 is-responsive">Featured Applied Skills</h2>
+					<ul class="grid is-fibonacci">
+						<li class="grid-item">
+							<article class="card position-relative" data-bi-name="icon-card">
+								<div class="card-content display-flex">
+									<div class="media align-items-stretch">
+										<div class="media-left">
+											<figure class="image is-64x64 ">
+												<img src="https://learn.microsoft.com/en-us/training/media/msle/applied-skill.svg" alt="" aria-hidden="true" data-linktype="absolute-path">
+											</figure>
+										</div>
+										<div class="media-content">
+											<a href="https://learn.microsoft.com/en-us/credentials/applied-skills/build-azure-ai-vision-solution/?wt.mc_id=fsi_msle_landingpage_wwl_aivision" class="card-title stretched-link" data-linktype="absolute-path">Build an Azure AI Vision solution</a>
+											<p class="card-content-description margin-top-xxs">
+												Azure • Developer • Intermediate
+											</p>
+										</div>
+									</div>
+								</div>
+							</article>
+						</li>
+						<li class="grid-item">
+							<article class="card position-relative" data-bi-name="icon-card">
+								<div class="card-content display-flex">
+									<div class="media align-items-stretch">
+										<div class="media-left">
+											<figure class="image is-64x64 ">
+												<img src="https://learn.microsoft.com/en-us/training/media/msle/applied-skill.svg" alt="" aria-hidden="true" data-linktype="absolute-path">
+											</figure>
+										</div>
+										<div class="media-content">
+											<a href="https://learn.microsoft.com/en-us/credentials/applied-skills/build-natural-language-solution-azure-ai?wt.mc_id=fsi_msle_landingpage_wwl_ailanguage" class="card-title stretched-link" data-linktype="absolute-path">Build a natural language processing solution with Azure AI Language</a>
+											<p class="card-content-description margin-top-xxs">
+												Azure • AI Engineer • Intermediate
+											</p>
+										</div>
+									</div>
+								</div>
+							</article>
+						</li>
+						<li class="grid-item">
+							<article class="card position-relative" data-bi-name="icon-card">
+								<div class="card-content display-flex">
+									<div class="media align-items-stretch">
+										<div class="media-left">
+											<figure class="image is-64x64 ">
+												<img src="https://learn.microsoft.com/en-us/training/media/msle/applied-skill.svg" alt="" aria-hidden="true" data-linktype="absolute-path">
+											</figure>
+										</div>
+										<div class="media-content">
+											<a href="https://learn.microsoft.com/en-us/credentials/applied-skills/create-intelligent-document-solution-azure-ai/?wt.mc_id=fsi_msle_landingpage_wwl_aidocument" class="card-title stretched-link" data-linktype="absolute-path">Create an intelligent document processing solution with Azure AI Document Intelligence</a>
+											<p class="card-content-description margin-top-xxs">
+												Azure • Developer • Intermediate
+											</p>
+										</div>
+									</div>
+								</div>
+							</article>
+						</li>
+						<li class="grid-item">
+							<article class="card position-relative" data-bi-name="icon-card">
+								<div class="card-content display-flex">
+									<div class="media align-items-stretch">
+										<div class="media-left">
+											<figure class="image is-64x64 ">
+												<img src="https://learn.microsoft.com/en-us/training/media/msle/applied-skill.svg" alt="" aria-hidden="true" data-linktype="absolute-path">
+											</figure>
+										</div>
+										<div class="media-content">
+											<a href="https://learn.microsoft.com/en-us/credentials/applied-skills/develop-generative-ai-solutions-with-azure-openai-service?wt.mc_id=fsi_msle_landingpage_wwl_openaiservice" class="card-title stretched-link" data-linktype="absolute-path">Develop generative AI solutions with Azure OpenAI Service</a>
+											<p class="card-content-description margin-top-xxs">
+												Azure • AI Engineer • Intermediate
+											</p>
+										</div>
+									</div>
+								</div>
+							</article>
+						</li>
+					</ul>
+					<p class="margin-top-xs">Explore all Microsoft <a href="https://learn.microsoft.com/en-us/credentials/browse/?credential_types=applied%20skills" class="font-weight-semibold" data-linktype="absolute-path">Applied Skills.</a></p>
+				</div>
+			</div>
+			<div id="grid-section-8" class="padding-block-md">
+				<div class="uhf-container">
+					<h2 id="resources-for-educators" class="title is-2 is-responsive">Resources for Educators</h2>
+					<ul class="grid is-fibonacci">
+						<li class="grid-item">
+							<article class="card position-relative border-left-lg border-left-color-accent" data-bi-name="summary-card">
+								<div class="card-content">
+									<a href="faq.html" class="card-title stretched-link" data-linktype="absolute-path">Frequently asked questions - Microsoft Learn for Educators program.</a>
+									<p class="card-content-description margin-top-xxs">
+										Get answers to common questions about Microsoft Learn for Educators
+									</p>
+								</div>
+							</article>
+						</li>
+						<li class="grid-item">
+							<article class="card position-relative border-left-lg border-left-color-accent" data-bi-name="summary-card">
+								<div class="card-content">
+									<a href="https://learn.microsoft.com/en-us/training/roles/educator" class="card-title stretched-link" data-linktype="absolute-path">Educator content on Microsoft Learn</a>
+									<p class="card-content-description margin-top-xxs">
+										Dive deep into learning via the Educator Center on Microsoft Learn with interactive lessons, earn professional development hours, acquire certifications and find programs that help meet your goals.
+									</p>
+								</div>
+							</article>
+						</li>
+						<li class="grid-item">
+							<article class="card position-relative border-left-lg border-left-color-accent" data-bi-name="summary-card">
+								<div class="card-content">
+									<a href="https://learn.microsoft.com/en-us/training/roles/student" class="card-title stretched-link" data-linktype="absolute-path">Student content on Microsoft Learn</a>
+									<p class="card-content-description margin-top-xxs">
+										Student Hub on Microsoft Learn helps student entrepreneurs and tech enthusiasts expand their technical knowledge and skills in the transformative field of AI. Explore beyond AI fundamentals, stay updated on cutting-edge AI advancements, and practice AI-enabled programming to learn and fuel entrepreneurial ventures.
+									</p>
+								</div>
+							</article>
+						</li>
+						<li class="grid-item">
+							<article class="card position-relative border-left-lg border-left-color-accent" data-bi-name="summary-card">
+								<div class="card-content">
+									<a href="https://learn.microsoft.com/en-us/training/topics/universities" class="card-title stretched-link" data-linktype="absolute-path">University content on Microsoft Learn</a>
+									<p class="card-content-description margin-top-xxs">
+										Explore modules and learning paths from universities like Carnegie Mellon University and University of Oxford to prepare you for a career in cloud.
+									</p>
+								</div>
+							</article>
+						</li>
+					</ul>
+					<p class="margin-top-xs">Explore additional <a href="overview.html#tools-for-teaching" class="font-weight-semibold" data-linktype="absolute-path">tools for teaching.</a></p>
+				</div>
+			</div>
+		</div>
+	</div><div id="assertive-live-region" role="alert" aria-live="assertive" class="visually-hidden" aria-relevant="additions" aria-atomic="true"></div>
+	<div id="polite-live-region" role="status" aria-live="polite" class="visually-hidden" aria-relevant="additions" aria-atomic="true"></div>
+	<!-- </content> -->
+
+									   </main><!-- recommendations section --><!-- end recommendations section -->
+									   
+				   <!--end of .mainContainer -->
+
+				   
+				   <div id="action-panel" role="region" aria-label="Action Panel" class="action-panel has-default-focus" tabindex="-1"></div>
+			   </body>
+<div id="footer-div"></div>
+<!-- Mirrored from learn.microsoft.com/en-us/training/educator-center/programs/msle/?wt.mc_id=fsi_msle_webpage_wwl_aiinedu by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 08 Nov 2024 05:18:28 GMT -->
+</html>

@@ -1,0 +1,256 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>AI Bootcamp - India CyberLearning</title>
+		<link rel="stylesheet" href="styles.css">
+		   <style>
+		   /* Styling specifically for the page title section */
+		   .page-header {
+			background-color: navy;
+			color: white;
+			text-align: center;
+			padding: 20px;
+			font-size: 2em;
+			font-family: Arial, sans-serif;
+		   }
+				   </style>
+				 <style>
+					/* Two logo flex header */
+					header {
+								display: flex;
+								justify-content: space-between;
+								align-items: flex-start;
+								padding: 10px;
+								background-color: #f4f4f4;
+							}
+					
+							.logo-left {
+								display: flex;
+								flex-direction: column;
+								align-items: flex-start;
+							}
+					
+							.logo-left img {
+								width: 250px; /* Adjust as needed */
+							}
+					
+							.logo-left span {
+								margin-top: 5px;
+								font-size: 14px;
+								color: #333;
+							}
+					
+							.logo-right img {
+								width: 125px; /* Adjust as needed */
+							}
+					  
+					
+					</style>
+				 <style>
+					body {
+						font-family: Arial, sans-serif;
+						margin: 0;
+						padding: 0;
+                        background-color: white;
+					}
+				
+					nav {
+						background-color: navy;
+						color: white;
+						padding: 0;
+					}
+				
+					.menu {
+						list-style: none;
+						padding: 15px 20px;
+						margin: 0;
+						display: flex;
+					}
+				
+					.menu > li {
+						position: relative; /* Needed for dropdown positioning */
+						padding: 15px 20px;
+						cursor: pointer;
+					}
+				
+					.menu a {
+						text-decoration: none;
+						color: white !important; /* Force white text in all cases */
+					}
+				
+					/* Override all link states with high specificity */
+					.menu a:link,
+					.menu a:visited,
+					.menu a:hover,
+					.menu a:active {
+						color: white !important; /* Ensure white text remains consistent */
+						text-decoration: none !important; /* Prevent underlines or other hover effects */
+					}
+				
+					/* Dropdown styles */
+					.ndropdown, .dropdown-sub {
+						display: none; /* Hidden by default */
+						position: absolute;
+						background-color: navy;
+						padding: 0;
+						list-style: none;
+						margin: 0;
+						top: 100%;
+						left: 0;
+						min-width: 150px;
+						z-index: 10;
+						border: 1px solid #555;
+					}
+				
+					.ndropdown li {
+						position: relative; /* Needed for sub-dropdown positioning */
+						padding: 10px 15px;
+					}
+				
+					.ndropdown li:hover {
+						background-color: #003366; /* Slightly lighter navy for hover */
+						color: white !important; /* Ensure text color stays white */
+					}
+				
+					/* Sub-dropdown styles */
+					.dropdown-sub {
+						top: 0;
+						left: 100%; /* Sub-menu appears to the right of the parent */
+					}
+				
+					/* Show dropdowns on hover */
+					.menu > li:hover > .ndropdown,
+					.ndropdown li:hover > .dropdown-sub {
+						display: block; /* Ensure dropdown is visible */
+					}
+				
+					/* Add spacing for smooth transitions to sub-menus */
+					.ndropdown li {
+						padding-right: 20px; /* Adds space between text and sub-dropdown */
+					}
+                    .slider {
+    position: relative;
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    height: 40vh; /* Default: 40% of the viewport height */
+    max-height: 500px; /* Upper limit for larger screens */
+}
+
+/* Slides wrapper */
+.slides {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: 100%;
+}
+
+/* Each slide */
+.slide {
+    flex: 0 0 100%; /* Each slide takes up 100% of the slider width */
+    box-sizing: border-box;
+}
+
+/* Images inside slides */
+.slide img {
+    width: 100%; /* Image adjusts to the full width of the container */
+    height: 100%; /* Image scales to the height of the slider */
+    object-fit: cover; /* Ensures no distortion but crops excess if necessary */
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 1024px) {
+    .slider {
+        height: 35vh; /* Slightly reduce height for laptops */
+        max-height: 400px; /* Upper limit for laptops */
+    }
+}
+
+@media (max-width: 768px) {
+    .slider {
+        height: 30vh; /* Further reduce height for tablets */
+        max-height: 350px; /* Upper limit for tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    .slider {
+        height: 25vh; /* Smallest height for mobile phones */
+        max-height: 300px; /* Upper limit for mobile devices */
+    }
+}
+
+
+/* Logo slider wrapper */
+.logo-slider {
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  padding: 0 0;
+  margin: 0 0;
+}
+
+/* Moving track */
+.logo-track {
+  display: flex;
+  width: max-content;
+  animation: logo-scroll 20s linear infinite;
+}
+
+/* Individual logo */
+.logo {
+  flex: 0 0 auto;
+  width: 12vw;
+  max-width: 25%;
+  min-width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 2vw;
+}
+
+/* Image safety */
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.8;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+
+@keyframes logo-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  } 
+}
+				</style>
+		
+    </head>
+    <body>
+												   <section class="logo-slider">
+  <div class="logo-track">
+    <!-- Repeat logos TWICE for seamless loop -->
+    <div class="logo"><img src="/images/quotes/cj_1.png" alt="Testimonial Rotary District Gov."></div>
+    <div class="logo"><img src="/images/quotes/cj_2.png" alt="Testimonial Chair Standing Comittee Broadband India Forum"></div>
+	<div class="logo"><img src="/images/quotes/mos_1.png" alt="Testimonial Certified Microsoft Office Specialist 1"></div>
+    <div class="logo"><img src="/images/quotes/mce_1.png" alt="Testimonial Microsoft Certified Educator 1"></div>
+    <div class="logo"><img src="/images/quotes/mce_2.png" alt="Testimonial Microsoft Certified Educator 2"></div>
+	<!-- <div class="logo"><img src="logos/du.jpeg.jpg" alt="Delhi University"></div>
+    <div class="logo"><img src="logos/asap.png" alt="ASAP Kerala"></div> -->
+	
+
+    <!-- duplicate -->
+    <div class="logo"><img src="/images/quotes/cj_1.png" alt="Testimonial Rotary District Gov."></div>
+    <div class="logo"><img src="/images/quotes/cj_2.png" alt="Testimonial Chair Standing Comittee Broadband India Forum"></div>
+	<div class="logo"><img src="/images/quotes/mos_1.png" alt="Testimonial Certified Microsoft Office Specialist 1"></div>
+    <div class="logo"><img src="/images/quotes/mce_1.png" alt="Testimonial Microsoft Certified Educator 1"></div>
+    <div class="logo"><img src="/images/quotes/mce_2.png" alt="Testimonial Microsoft Certified Educator 2"></div>
+	<!-- <div class="logo"><img src="logos/du.jpeg.jpg" alt="Delhi University"></div>
+    <div class="logo"><img src="logos/asap.png" alt="ASAP Kerala"></div> -->
+  </div>
+</section>        
+    </body>
+</html>

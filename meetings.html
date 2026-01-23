@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calendly Dashboard</title>
+  <style>
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 40px;
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+th, td {
+  padding: 15px 20px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+  background-color: #0072CE; /* solid color */
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+tr:hover {
+  background-color: #f0f4f8;
+  transition: background 0.3s;
+}
+
+td:hover {
+  font-size: 14px;
+}
+
+h1 {
+  color: #0072CE;
+  margin-bottom: 20px;
+}
+
+  </style>
+</head>
+<body>
+  <h1>Calendly Dashboard</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Event Name</th>
+        <th>Start Time</th>
+        <th>Invitee</th>
+      </tr>
+    </thead>
+    <tbody id="events-body"></tbody>
+  </table>
+
+  <script>
+async function loadMeetings() {
+  const res = await fetch('/api/meetings');
+  const meetings = await res.json();
+  const tbody = document.getElementById('meetings-body');
+  tbody.innerHTML = meetings.map(m => `
+    <tr>
+      <td>${m.name}</td>
+      <td>${new Date(m.start_time).toLocaleString()}</td>
+      <td>${m.invitee}</td>
+      <td>${m.event_type}</td>
+    </tr>
+  `).join('');
+}
+
+loadMeetings();
+setInterval(loadMeetings, 60000); // refresh every 60s
+</script>
+</body>
+</html>

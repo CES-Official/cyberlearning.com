@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Certification</title>
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, sans-serif;
+    }
+
+    body {
+      background: #f5f7fa;
+      padding: 40px;
+    }
+
+    .cert-form {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+
+    fieldset {
+      margin: 20px 0;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    legend {
+      font-weight: 600;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background: #2563eb;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1e4fd6;
+    }
+
+    .add-btn {
+      background: #10b981;
+      margin-top: 10px;
+    }
+
+    .item {
+      border: 1px solid #e5e7eb;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .remove-area {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      cursor: pointer;
+      color: #ef4444;
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+
+<form class="cert-form" id="certForm">
+  <h2>Create Certification</h2>
+
+  <label>
+    Title
+    <input name="title" required />
+  </label>
+
+  <label>
+    Duration
+    <input name="duration" />
+  </label>
+
+  <label>
+    Image URL
+    <input name="imageUrl" />
+  </label>
+
+  <label>
+    Price
+    <input name="price" />
+  </label>
+  <!-- Key Skills -->
+  <fieldset>
+    <legend>Key Skills</legend>
+    <div id="keyskillscontainer"></div>
+    <button type="button" class="add-btn" onclick="addSkill()">
+      + Add Skill
+    </button>
+  </fieldset>
+
+  <!-- Prerequisites -->
+  <fieldset>
+    <legend>Prerequisites</legend>
+    <div id="prerequisitesContainer"></div>
+    <button type="button" class="add-btn" onclick="addPrerequisite()">
+      + Add Prerequisite
+    </button>
+  </fieldset>
+
+  <button type="submit">Save Certification</button>
+</form>
+
+<script>
+/* ================== DYNAMIC ITEM FUNCTIONS ================== */
+
+function addItem(containerId, isTextarea = false) {
+  const container = document.getElementById(containerId);
+
+  const div = document.createElement("div");
+  div.className = "item";
+
+  let innerHTML = `
+    <div class="remove-area" onclick="this.parentElement.remove()">
+      <i class="fa-regular fa-circle-xmark"></i>
+    </div>
+    <input placeholder="Enter value" />
+  `;
+
+  if (isTextarea) {
+    innerHTML = `
+      <div class="remove-area" onclick="this.parentElement.remove()">
+        <i class="fa-regular fa-circle-xmark"></i>
+      </div>
+      <input placeholder="Title" />
+      <textarea placeholder="Description"></textarea>
+    `;
+  }
+
+  div.innerHTML = innerHTML;
+  container.appendChild(div);
+}
+
+/* ================== ADD BUTTON HANDLERS ================== */
+function addHighlight() {
+  addItem("highlightsContainer", true);
+}
+
+function addPrerequisite() {
+  addItem("prerequisitesContainer");
+}
+
+function addSkill() {
+  addItem("keyskillscontainer");
+}
+
+/* ================== READERS ================== */
+function readHighlights() {
+  return [...document.querySelectorAll("#highlightsContainer .item")]
+    .map(item => {
+      const [title, description] = item.querySelectorAll("input, textarea");
+      if (!title.value.trim()) return null;
+      return { title: title.value.trim(), description: description.value.trim() };
+    })
+    .filter(Boolean);
+}
+
+function readPrerequisites() {
+  return [...document.querySelectorAll("#prerequisitesContainer input")]
+    .map(input => input.value.trim())
+    .filter(Boolean);
+}
+
+function readSkills() {
+  return [...document.querySelectorAll("#keyskillscontainer input")]
+    .map(input => input.value.trim())
+    .filter(Boolean);
+}
+
+/* ================== FORM SUBMISSION ================== */
+document.getElementById("certForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const payload = {
+    title: e.target.title.value.trim(),
+    price: e.target.price.value.trim(),
+    duration: e.target.duration.value.trim(),
+    ImgLink: e.target.imageUrl.value.trim(),
+    Highlights: readHighlights(),
+    Prerequisites: readPrerequisites(),
+    KeySkills: readSkills()
+  };
+
+  console.log("📦 Payload:", payload);
+
+  try {
+    const res = await fetch("/admin/certifications/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const text = await res.text(); // capture response
+
+    if (!res.ok) throw new Error(`Status ${res.status}: ${text}`);
+
+    alert("✅ Certification created");
+
+    // RESET FORM & CONTAINERS
+    e.target.reset();
+    document.getElementById("prerequisitesContainer").innerHTML = " ";
+    document.getElementById("keyskillscontainer").innerHTML = " ";
+
+  } catch (err) {
+    console.error(err);
+    alert("❌ Failed to save certification: " + err.message);
+  }
+});
+</script>
+
+</body>
+</html>

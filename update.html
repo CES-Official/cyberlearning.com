@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Update Certification</title>
+
+<style>
+body {
+  font-family: Inter, system-ui;
+  background: white;
+  color: #e5e7eb;
+  padding: 40px;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: grey;
+  padding: 32px;
+  border-radius: 18px;
+  box-shadow: 0 0 50px rgba(0,0,0,.6);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  border-radius: 18px;
+}
+
+label {
+  display: block;
+  margin-top: 18px;
+  font-weight: 600;
+}
+select {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #0f172a;
+  color: white;
+
+}
+h4 {
+    border-radius: 70px/30px;
+    background-color: whitesmoke;
+    color: black;
+    text-align: center;
+}
+
+input, textarea {
+  width: 97.5%;
+  margin-top: 8px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #0f172a;
+  color: white;
+}
+
+textarea { resize: vertical; }
+
+button {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.primary {
+  background: white;
+  color: black;
+}
+
+.danger {
+  background: #dc2626;
+  color: white;
+}
+
+.secondary {
+  background: green;
+  color: white;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.section {
+  border-top: 1px solid #1e293b;
+  padding-top: 22px;
+  margin-top: 22px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h2>Update Certification</h2>
+
+  <!-- Document Selector -->
+  <label>Certification Document</label>
+  <h4 style="width: 40%; margin-left: 32%;"> Select page to edit. After selecting page, all values below auto-load.</h4>
+  <select id="docSelect"></select>
+
+  <!-- Strings -->
+  <h4 style="width: 40%; margin-left: 32%;"> To edit these below, simply change the values post load  </h4>
+  <label>Title</label>
+  <input id="titleInput">
+
+  <label>Image Link</label>
+  <input id="imgLinkInput">
+
+  <!-- Key Skills -->
+  <div class="section">
+    <h4> To edit a value; first select option from drop down and enter value to update.
+        Do not press any buttons to edit the value other than the Save Changes button at bottom of menu.  
+    
+    <br> To remove a value, press remove after selecting it. To add a value, type the new value and press add.
+
+    </h4>
+    <label>Key Skills</label>
+    <select id="skillSelect"></select>
+    <input id="skillInput" placeholder="Skill">
+
+    <div class="actions">
+      <button class="secondary" onclick="addSkill()">Add</button>
+      <button class="danger" onclick="removeSkill()">Remove</button>
+    </div>
+
+  <!-- Pre-req -->
+    
+    <label>Pre-Requisites</label>
+    <select id="preReqSelect"></select>
+    <input id="preReqInput" placeholder="Pre-req">
+
+    <div class="actions">
+      <button class="secondary" onclick="addPreReq()">Add</button>
+      <button class="danger" onclick="removePreReq()">Remove</button>
+    </div>
+  </div>
+
+  <!-- Highlights -->
+  <div class="section">
+        <h4> To edit the below; first select option to edit from drop down. <br>
+        Then, change value for the selected value by: typing new title AND new description in first and second input areas respectively.   Add and remove function is same as before.
+    </h4>
+    <label>Highlights</label>
+    <select id="highlightSelect"></select>
+
+    <input id="highlightTitle" placeholder="Highlight Title">
+    <textarea id="highlightDesc" placeholder="Highlight Description"></textarea>
+
+    <div class="actions">
+      <button class="secondary" onclick="addHighlight()">Add</button>
+      <button class="danger" onclick="removeHighlight()">Remove</button>
+    </div>
+  </div>
+
+  <button class="primary" style="margin-top:30px" onclick="save()">Save Changes</button>
+</div>
+
+<script>
+let data = {};
+const api = "/api";
+
+/* Load doc IDs */
+fetch(`${api}/certifications`)
+  .then(r => r.json())
+  .then(ids => {
+    docSelect.innerHTML =
+      `<option value="">Select</option>` +
+      ids.map(id => `<option>${id}</option>`).join("");
+  });
+
+docSelect.onchange = async () => {
+  const res = await fetch(`${api}/certifications/${docSelect.value}`);
+  data = await res.json();
+
+  titleInput.value = data.Title || "";
+  imgLinkInput.value = data.ImgLink || "";
+
+  refreshSkills();
+  refreshPreReqs();
+  refreshHighlights();
+};
+
+/* ===== Key Skills ===== */
+function refreshSkills() {
+  skillSelect.innerHTML = data["Key Skills"].map((v,i) =>
+    `<option value="${i}">${v}</option>`
+  ).join("");
+
+  skillSelect.onchange = () =>
+    skillInput.value = data["Key Skills"][skillSelect.value];
+
+  skillSelect.dispatchEvent(new Event("change"));
+}
+
+function addSkill() {
+  if (!skillInput.value) return;
+  data["Key Skills"].push(skillInput.value);
+  refreshSkills();
+}
+
+function removeSkill() {
+  data["Key Skills"].splice(skillSelect.value, 1);
+  refreshSkills();
+}
+
+/* ===== Pre-req ===== */
+function refreshPreReqs() {
+  preReqSelect.innerHTML = data["pre-req"].map((v,i) =>
+    `<option value="${i}">${v}</option>`
+  ).join("");
+
+  preReqSelect.onchange = () =>
+    preReqInput.value = data["pre-req"][preReqSelect.value];
+
+  preReqSelect.dispatchEvent(new Event("change"));
+}
+
+function addPreReq() {
+  if (!preReqInput.value) return;
+  data["pre-req"].push(preReqInput.value);
+  refreshPreReqs();
+}
+
+function removePreReq() {
+  data["pre-req"].splice(preReqSelect.value, 1);
+  refreshPreReqs();
+}
+
+/* ===== Highlights ===== */
+function refreshHighlights() {
+  highlightSelect.innerHTML = data.Highlights.map((h,i) =>
+    `<option value="${i}">${h.title}</option>`
+  ).join("");
+
+  highlightSelect.onchange = () => {
+    const h = data.Highlights[highlightSelect.value];
+    highlightTitle.value = h?.title || "";
+    highlightDesc.value = h?.description || "";
+  };
+
+  highlightSelect.dispatchEvent(new Event("change"));
+}
+
+function addHighlight() {
+  if (!highlightTitle.value) return;
+  data.Highlights.push({
+    title: highlightTitle.value,
+    description: highlightDesc.value
+  });
+  refreshHighlights();
+}
+
+function removeHighlight() {
+  data.Highlights.splice(highlightSelect.value, 1);
+  refreshHighlights();
+}
+
+/* ===== Save ===== */
+async function save() {
+  data.Title = titleInput.value;
+  data.ImgLink = imgLinkInput.value;
+
+  /* Update selected edits */
+  if (skillSelect.value >= 0)
+    data["Key Skills"][skillSelect.value] = skillInput.value;
+
+  if (preReqSelect.value >= 0)
+    data["pre-req"][preReqSelect.value] = preReqInput.value;
+
+  if (highlightSelect.value >= 0)
+    data.Highlights[highlightSelect.value] = {
+      title: highlightTitle.value,
+      description: highlightDesc.value
+    };
+
+  await fetch(`${api}/certifications/${docSelect.value}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  alert("✅ Changes saved");
+}
+</script>
+</body>
+</html>
