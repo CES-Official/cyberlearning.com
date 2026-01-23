@@ -1,5 +1,5 @@
 import express from "express";
-// import admin from "firebase-admin";
+import admin from "firebase-admin";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -8,13 +8,36 @@ import certTemplate from "./certTemplate.js";
 import bootcampTemplate from "./bootcampTemplate.js";
 import cors from "cors";
 import helmet from "helmet";
-import "dotenv";
+import dotenv from "dotenv"; // import the module as a variable
 // server.js
 // import express from "express";
-import { db, doc, getDoc, getDocs, collection } from "./firebase.js";
 
-
+dotenv.config();
 const app = express();
+
+/* ================= FIREBASE INIT ================= */
+
+const serviceAccount = {
+  type: process.env.FIREBASE_TYPE,
+  project_id: process.env.FIREBASE_PROJECT_ID,
+  private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
+  private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+  client_email: process.env.FIREBASE_CLIENT_EMAIL,
+  client_id: process.env.FIREBASE_CLIENT_ID,
+  auth_uri: process.env.FIREBASE_AUTH_URI,
+  token_uri: process.env.FIREBASE_TOKEN_URI,
+  auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
+  client_x509_cert_url: process.env.FIREBASE_CLIENT_X509_CERT_URL
+};
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+
+const db = admin.firestore();
+
+export { db };
+
 
 /* =========================================================
    🔓 SECURITY HEADERS
@@ -121,13 +144,11 @@ app.get("/certifications", (req, res) => {
 
 app.get("/bootcamps/:id", async (req, res) => {
   try {
-    // Force the URL parameter to lowercase to match Firestore IDs
     const docId = req.params.id.toLowerCase();
 
-    // Fetch the document using client SDK
-    const snap = await getDoc(doc(db, "Bootcamps", docId));
+    const snap = await db.collection("Bootcamps").doc(docId).get();
 
-    if (!snap.exists()) {
+    if (!snap.exists) {
       return res.status(404).send(`
         <h1>Bootcamp Not Found</h1>
         <p>Could not find a bootcamp with ID: ${docId}</p>
@@ -137,7 +158,6 @@ app.get("/bootcamps/:id", async (req, res) => {
 
     const d = snap.data();
 
-    // Render the template with the data
     res.send(
       bootcampTemplate({
         title: d.title,
@@ -145,46 +165,17 @@ app.get("/bootcamps/:id", async (req, res) => {
         duration: d.duration,
         imageUrl: d.ImgLink,
         prerequisites: d.Prerequisites || [],
-        keySkills: d.Syllabus || [], // your template expects an array
+        keySkills: d.Syllabus || []
       })
     );
-
+    
   } catch (err) {
     console.error("Error fetching bootcamp:", err);
     res.status(500).send("Failed to load bootcamp page.");
   }
 });
 
-app.get("/certifications/:id", async (req, res) => {
-  try {
-    const certId = req.params.id;
-
-    // Get the document using client SDK
-    const snap = await getDoc(doc(db, "Certifications", certId));
-
-    if (!snap.exists()) {
-      return res.status(404).send("Certification not found");
-    }
-
-    const d = snap.data();
-
-    res.send(
-      certTemplate({
-        title: d.title,
-        price: d.price,
-        duration: d.duration,
-        imageUrl: d.ImgLink,
-        courseHighlights: d.Highlights,
-        prerequisites: d.Prerequisites,
-        keySkills: d.KeySkills,
-      })
-    );
-  } catch (err) {
-    console.error("Error fetching certification:", err);
-    res.status(500).send("Failed to load certification");
-  }
-});
-
+app.get("/certifications/:id", async (req, res) => { try { const snap = await db.collection("Certifications").doc(req.params.id).get(); if (!snap.exists) return res.status(404).send("Certification not found"); const d = snap.data(); res.send( certTemplate({ title: d.title, price: d.price, duration: d.duration, imageUrl: d.ImgLink, courseHighlights: d.Highlights, prerequisites: d.Prerequisites, keySkills: d.KeySkills, }) ); } catch (err) { console.error(err); res.status(500).send("Failed to load certification"); } });
 
 /* =========================================================
    🔓 PUBLIC API (READ ONLY)
