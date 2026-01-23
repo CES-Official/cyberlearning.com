@@ -1,0 +1,44 @@
+<ul class="menu">
+  <% menu.forEach(item => { %>
+    <li>
+      <% if (item.url) { %>
+        <a href="<%= item.url %>"
+           style="display:inline-block;"
+           onmouseover="this.style.transform='scale(1.6)'; this.style.color='white'"
+           onmouseout="this.style.transform='scale(1.0)'">
+          <%= item.label %>
+        </a>
+      <% } else { %>
+        <%= item.label %>
+      <% } %>
+
+      <% if (item.children && item.children.length) { %>
+        <ul class="ndropdown">
+          <% item.children.forEach(child => { %>
+            <li>
+              <%= child.label %>
+
+              <% if (child.children && child.children.length) { %>
+                <ul class="dropdown-sub">
+                  <% child.children.forEach(sub => { %>
+                    <li
+                      onmouseover="this.querySelector('a').style.color='black'"
+                      onmouseout="this.querySelector('a').style.color='white'">
+                      <a href="<%= sub.url %>"
+                         style="display:inline-block;"
+                         onmouseover="this.style.transform='scale(1.3)'"
+                         onmouseout="this.style.transform='scale(1.0)'">
+                        <%= sub.label %>
+                      </a>
+                    </li>
+                  <% }) %>
+                </ul>
+              <% } %>
+
+            </li>
+          <% }) %>
+        </ul>
+      <% } %>
+    </li>
+  <% }) %>
+</ul>
