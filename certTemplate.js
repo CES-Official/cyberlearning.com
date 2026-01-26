@@ -76,7 +76,7 @@ function certTemplate({
 
 				.cert-badge-img {
 					max-width: 30vw;      /* Take up the full 200px width */
-					height: auto;     /* Maintain original aspect ratio automatically */
+					max-height: 20vh;     /* Maintain original aspect ratio automatically */
 					display: block;
 					object-fit: contain; 
 				}
@@ -111,8 +111,11 @@ function certTemplate({
 								align-items: flex-start;
 							}
 					
-							.logo-left img {
-								width: 250px; /* Adjust as needed */
+							.logo-left img,
+							.logo-right img {
+							max-width: 30vw;
+							max-height: 20vh;
+							object-fit: contain;
 							}
 					
 							.logo-left span {
@@ -120,10 +123,7 @@ function certTemplate({
 								font-size: 14px;
 								color: #333;
 							}
-					
-							.logo-right img {
-								width: 125px; /* Adjust as needed */
-							}
+
 					  
 					
 					</style>
@@ -326,8 +326,8 @@ function certTemplate({
 																   </div>
 															   </div>
 															   <div class="" style="">
-																<div class="column "> <div class="is-full-width display-flex flex-direction-column flex-grow-1">
-																		<figure class="cert-badge-container">
+																<div class="column "> <div class="display-flex flex-direction-column flex-grow-1">
+																		<figure class="">
 																			<img src="${imageUrl}" alt="${title}" class="cert-badge-img">
 																		</figure>
 																	</div>
