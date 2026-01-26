@@ -76,7 +76,7 @@ function certTemplate({
 
 				.cert-badge-img {
 					max-width: 30vw;      /* Take up the full 200px width */
-					max-height: 20vh;     /* Maintain original aspect ratio automatically */
+					max-height: 50vh;     /* Maintain original aspect ratio automatically */
 					display: block;
 					object-fit: contain; 
 				}
