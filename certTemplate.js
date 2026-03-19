@@ -310,6 +310,7 @@ function certTemplate({
 																		   <li> <b> 100% Pass Rate:</b> for ${title} as of January 2026  
 																		   <li> <b> Live Training:</b> Master trainer will answer doubts and clarify concepts live </li>
 																		   <li> <b> Hands-on Demos:</b> Live demos using Azure AI services </li>
+																		   <li> <b> Per Day Costing:</b> Expert trainer at same payment, regardless of batch size </li>
                                                                            </ul>
 																	<h2 class="font-size-lg" style="margin-right: 7.5%"> Only These Pre-Requisites required For CyberLearning Training
 																	   </h2>
