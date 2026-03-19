@@ -146,6 +146,9 @@ app.get("/certifications", (req, res) => {
   res.sendFile(path.join(__dirname, "certifications.html"));
 });
 
+app.get("/brochure", (req, res) => {
+  res.sendFile(path.join(__dirname, "brochure.pdf"));
+});
 
 app.get("/bootcamps/:id", async (req, res) => {
   try {
