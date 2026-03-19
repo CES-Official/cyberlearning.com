@@ -317,7 +317,7 @@ function certTemplate({
                                                                     ${prereqArray.map(p => `<li class="font-size-lg">${p}</li>`).join("")}
 																		</ul>
 																	   </div>														
-                                                                    <p> <button class="button-18" role="button"> Vouchers Included  </button> <button class="button-18" role="button"> Price: ₹${price}  </button> <button class="button-18" role="button"> Duration: ${duration}  </button> </p>
+                                                                    <p> <button class="button-18" role="button"> Vouchers Included  </button> <button class="button-18" role="button"> Price/day: ₹${price}  </button> <button class="button-18" role="button"> Duration: ${duration}  </button> </p>
 
 
 
